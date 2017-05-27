@@ -9,15 +9,20 @@
     background-color: #363636;
     border-radius: 5px;
 
-    width: max-content;
-    min-width: 300px;
-    max-width: 500px;
+    width: 450px;
 
     padding: 10px;
     margin-bottom: 10px;
 }
 
-.item h3 * {
+.item-header {
+    padding: 0;
+    margin: 0;
+
+    position: relative;
+}
+
+.item-header * {
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
     font-size: 25px;
@@ -26,17 +31,40 @@
     text-shadow: 0px 0px 3px #222222;
 
     display: inline-block;
-}
 
-.item h3 {
     margin: 0;
 }
 
-.fp {
-    color: white;
-    font-weight: 700;
+.item-name{
+    margin-right: 50px;
+}
+
+.item-name, .tier  {
+    padding: 10px;
+    padding-right: 0px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .tier {
-    float: right;
+    right: 0%;
+}
+
+.item-sprite {
+    width: 48px;
+    height: 48px;
+
+    margin-left: 0;
+
+    background-size: 1600%;
+
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated; /* Chrome */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                         */
 }
