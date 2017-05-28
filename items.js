@@ -1,11 +1,22 @@
-baseURL = "https://static.drips.pw/rotmg/production/current";
 var items = []
 
 //basic item from 'equip.xml'
-function Item(name, desc, tier){
-    this.name = name;
-    this.desc = desc;
-    this.tier = tier;
+function Item(xml){
+    this.name = xml.attr("id");
+    if(xml.find("DisplayId").text()){
+        this.name = xml.find("DisplayId").text();
+        this.id = xml.attr("id");
+    }
+    this.desc = xml.find("Description").text();
+    this.tier = xml.find("Tier").text();
+
+    this.spriteFile = xml.find("File").text() + ".png";
+    this.spriteRef = xml.find("Index").text();
+    //item.spriteFile = item.spriteFile.replace("playerskins", "playersSkins")
+    this.consumable = xml.find("Consumable").length;
+    this.soulbound = xml.find("Soulbound").length;
+    this.feedpower = xml.find("feedPower").text();
+    this.famebonus = xml.find("FameBonus").text();
 
     //Return html for an Item Sprite
     Item.prototype.drawSprite = function(){
@@ -28,7 +39,7 @@ function Item(name, desc, tier){
     Item.prototype.drawItem = function(container){
         div = "";
 
-        div += "<div class='item'>"
+        div += "<div class='item' title='"+(this.id ? this.id : this.name)+"'>"
         div +=     "<h3 class='item-header'>"
         div +=         this.drawSprite()
         div +=         "<div class='header-text'>"
@@ -40,47 +51,6 @@ function Item(name, desc, tier){
 
         container.append(div)
     }
+
+    items.push(this);
 }
-
-//reloads items array using 'xml'
-//This should allow for selectable xml files
-function reloadItems(xml){
-    items = [];
-
-    $(xml).find("Object").each(function(i,e){
-        $obj = $(e);
-
-        name = $obj.attr("id");
-        desc = $obj.find("Description").text();
-        tier = $obj.find("Tier").text();
-
-        item = new Item(name, desc, tier);
-
-        item.spriteFile = $obj.find("File").text() + ".png";
-        item.spriteRef = $obj.find("Index").text();
-
-        //item.spriteFile = item.spriteFile.replace("playerskins", "playersSkins")
-
-        item.consumable = $obj.find("Consumable").length;
-        item.soulbound = $obj.find("Soulbound").length;
-        item.feedpower = $obj.find("feedPower").text();
-        item.famebonus = $obj.find("FameBonus").text();
-
-        items.push(item);
-    })
-}
-
-//Populate the items array with STATIC.DRIPS.PW data
-$.ajax({
-    url: baseURL + "/xml/Equip.xml",  //TODO Make configurable
-    type: "get",
-    datatype:"xml",
-    success: function(xml){
-        reloadItems(xml);
-
-        //append all items to page
-        for(var i = 0; i < items.length; i++){
-            items[i].drawItem($("body"))
-        }
-    }
-})

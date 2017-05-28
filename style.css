@@ -1,7 +1,59 @@
+#control-column {
+    width: 400px;
+    height: 200px;
+    background-color: #777777;
+    border: 0.5px solid #333333;
+
+    border-radius: 3px;
+
+    right: 0;
+    top: 0;
+    position: fixed;
+
+    margin: 10px;
+}
+
+#url-input {
+    width: 100%;
+}
+
+#url-in-controls {
+    text-align: center;
+    align-content: center;
+
+    margin: 5px auto;
+
+    width: 90%;
+}
+
+#reload {
+    position: absolute;
+    bottom: 0;
+
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%)
+}
+
+.err:focus {
+    outline: none !important;
+    border:2px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+#control-column > h4 {
+    text-align: center;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 2px 0px;
+}
+
+
 * {
     font-family: 'Open Sans', sans-serif;
     font-weight: lighter;
-    color: #b3b3b3;
+    color: black;
     font-size: 16px;
 }
 

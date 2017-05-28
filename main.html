@@ -9,6 +9,16 @@
         <script src="./main.js"></script>
     </head>
     <body>
+        <div id="control-column">
+            <h4>Settings</h4>
+            <div id="url-in-controls">
+                <input type="text" name="url" id="url-input" />
+                <button id="prod" onclick="setProd()">Current Prod</button>
+                <button id="testing" onclick="setTest()">Current Testing</button>
+            </div>
+            <button id="reload" onclick="reload()">Reload</button>
+        </div>
+        <div id="item-list-column"></div>
 
     </body>
 </html>
