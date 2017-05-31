@@ -1,66 +1,90 @@
-let defaultBaseURL = "https://static.drips.pw/rotmg/production/current";
-baseURL = defaultBaseURL;
+let defaultURL1 = "https://static.drips.pw/rotmg/production/current";
 
-$(document).ready(function(){
-    //Populate the items array with STATIC.DRIPS.PW data
-    $.ajax({
-        url: baseURL + "/xml/Equip.xml",  //TODO Make configurable
+var URL1 = defaultURL1;
+var URL2 = "";
+
+var items1 = []
+var items2 = []
+
+function loadXML(url){
+    return $.ajax({
+        url: url,
         type: "get",
-        datatype:"xml",
-        success: function(xml){
-            $(xml).find("Object").each(function(i,e){
-                new Item($(e))
-            })
-
-            //append all items to page
-            for(var i = 0; i < items.length; i++){
-                items[i].drawItem($("#item-list-column"))
-            }
-        }
-    })
-});
-
-function load(url){
-    baseURL = url;
-
-    $(document).ready(function(){
-        //Populate the items array with STATIC.DRIPS.PW data
-        $.ajax({
-            url: baseURL + "/xml/Equip.xml",
-            type: "get",
-            datatype:"xml",
-            success: function(xml){
-                $(xml).find("Object").each(function(i,e){
-                    new Item($(e))
-                })
-
-                //append all items to page
-                for(var i = 0; i < items.length; i++){
-                    items[i].drawItem($("#item-list-column"))
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                $("#url-input").val(defaultBaseURL);
-                reload();
-            }
-        })
+        datatype:"xml"
     });
 }
 
-function setProd(){
-    $("#url-input").val("https://static.drips.pw/rotmg/production/current");
-    reload();
-}
+$(document).ready(function(){
+    load();
 
-function setTest(){
-    $("#url-input").val("https://static.drips.pw/rotmg/testing/current");
-    reload();
+    $("#primary-input").keypress(function(event){
+        if(event.which == 13){
+            event.preventDefault();
+            reload();
+        }
+    });
+
+    $("#secondary-input").keypress(function(event){
+        if(event.which == 13){
+            event.preventDefault();
+            reload();
+        }
+    });
+});
+
+function load(){
+    items1 = [];
+    items2 = [];
+
+    $("#main-list > .list").empty();
+    $("#secondary-list > .list").empty();
+
+    var promise1 = loadXML(URL1 + "/xml/Equip.xml");
+    var promise2 = $.Deferred(function(d){
+        if(URL2){                                                   //check if a second URL is actually present
+            var loading = loadXML(URL2 + "/xml/Equip.xml");
+
+            loading.done(function(data){
+                d.resolve(data);
+            });
+
+            loading.fail(function(){
+                d.resolve("<Objects><Object id=\"Error\"></Object></Objects>");
+            });
+        }else{
+            d.resolve([""]);
+        }
+    });
+
+    $.when(promise1, promise2).done(function(d1,d2){
+        var xml1 = d1[0];
+        var xml2 = d2;
+
+        $.each($(xml1).find("Object"), function(i, ele){
+            items1.push(new Item($(ele), URL1));
+        });
+
+        items1.forEach(function callback(item, i, array) {
+            item.drawItem($("#main-list > .list"));
+        });
+
+        $.each($(xml2).find("Object"), function(i, ele){
+            items2.push(new Item($(ele), URL2));
+        });
+
+        items2.forEach(function callback(item, i, array) {
+            item.drawItem($("#secondary-list > .list"));
+        });
+    });
 }
 
 function reload(){
-    items = [];
-    $("#item-list-column").empty();
-    $("#url-input").removeClass("err");
-    load($("#url-input").val());
+    URL1 = $("#primary-input").val();
+    URL2 = $("#secondary-input").val();
 
+    if(URL1 == ""){
+        URL1 = defaultURL1;
+    }
+
+    load();
 }

@@ -1,14 +1,14 @@
-var items = []
-
 //basic item from 'equip.xml'
-function Item(xml){
+function Item(xml, url){
     this.name = xml.attr("id");
-    if(xml.find("DisplayId").text()){
+    if(xml.find("DisplayId").text() && !xml.find("DisplayId").text().includes("{")){
         this.name = xml.find("DisplayId").text();
         this.id = xml.attr("id");
     }
     this.desc = xml.find("Description").text();
     this.tier = xml.find("Tier").text();
+
+    this.url = url;
 
     this.spriteFile = xml.find("File").text() + ".png";
     this.spriteRef = xml.find("Index").text();
@@ -25,11 +25,11 @@ function Item(xml){
 
         div = ""
 
-        div +=      "<div class='item-sprite'"
-        div +=          "style='"
-        div +=              "background-image: url(" + baseURL + "/sheets/" + this.spriteFile + ");"
-        div +=              "background-position:" + column*48 + "px " + row*48 + "px;"
-        div +=      "'></div>"
+        div += "<div class='item-sprite'"
+        div +=     "style='"
+        div +=         "background-image: url(" + this.url + "/sheets/" + this.spriteFile + ");"
+        div +=         "background-position:" + column*48 + "px " + row*48 + "px;"
+        div += "'></div>"
 
 
         return div;
@@ -51,6 +51,4 @@ function Item(xml){
 
         container.append(div)
     }
-
-    items.push(this);
 }
