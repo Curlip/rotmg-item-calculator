@@ -9,7 +9,7 @@ function Item(xml, url){
     var tag = xml.find("DisplayId").text();
     if(tag && !tag.includes("{")){
         this.name = tag;
-        this.id = id;
+        this.id = attr;
     }else{
         this.name = attr;
         this.id = tag;
@@ -36,9 +36,9 @@ function Item(xml, url){
         this.maxdamage = parseInt(xml.find("MaxDamage").text());
         this.averagedamage = (this.mindamage + this.maxdamage) / 2;                                                 //average damage
         this.range = (parseFloat(xml.find("Speed").text()) * parseFloat(xml.find("LifetimeMS").text())) / 10000;    //speed * lifetime / 10000
-        this.rof = (0 - parseFloat(xml.find("RateOfFire").text())) * 100;                                           //(0-range) * 100   
+        this.rof = (0 - parseFloat(xml.find("RateOfFire").text())) * 100;                                           //(0-range) * 100
     }
-
+}
 
     //Return html for an Item Sprite
     Item.prototype.drawSprite = function(){
@@ -69,8 +69,14 @@ function Item(xml, url){
         div +=             "<div class='tier'>" + (this.tier == "" ? "<span style='color: #8B2DDC;' >UT</span>" : (this.consumable ? "" : "T" + this.tier)) + "</div>"
         div +=         "</div>"
         div +=     "</h3>"
+        div +=     "<div class='desc'>"
+        div +=         "<p>" + (this.desc).split("\\n").join("<br />") + "</p>"
+        div +=     "</div>"
+        div +=     "<hr />"
+        if(this.feedpower){
+            div +=      "<span class='fp'> Feed Power: " + this.feedpower + "</span>"
+        }
         div += "</div>"
 
         container.append(div)
     }
-}
