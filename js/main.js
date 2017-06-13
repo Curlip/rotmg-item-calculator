@@ -65,7 +65,7 @@ function load(){
         });
 
         items1.forEach(function callback(item, i, array) {
-            item.drawItem($("#main-list > .list"));
+            item.writeItem($("#main-list > .list"));
         });
 
         $.each($(xml2).find("Object"), function(i, ele){
@@ -73,7 +73,7 @@ function load(){
         });
 
         items2.forEach(function callback(item, i, array) {
-            item.drawItem($("#secondary-list > .list"));
+            item.writeItem($("#secondary-list > .list"));
         });
     });
 }
