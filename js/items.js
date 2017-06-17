@@ -1,12 +1,14 @@
 //basic item from 'equip.xml'
 function Item(xml, url){
+    var self = this;
+
     this.url = url;
 
 //XML DATA:
 
     //HEADER
     var attr = xml.attr("id");
-    var tag = xml.find("DisplayId").text();
+    var tag  = getText(xml, "DisplayId");
     if(tag && !tag.includes("{")){
         this.name = tag;
         this.id = attr;
@@ -15,27 +17,34 @@ function Item(xml, url){
         this.id = tag;
     }
 
-    this.desc = xml.find("Description").text();
-    this.tier = xml.find("Tier").text();
+    this.desc       = getText(xml, "Description");
+    this.tier       = getText(xml, "Tier");
 
     //SPRITE
-    this.spriteFile = xml.find("File").text() + ".png";
-    this.spriteRef = xml.find("Index").text();
+    this.spriteFile = getText(xml, "File") + ".png";
+    this.spriteRef  = getText(xml, "Index");
     //FLAGS
-    this.consumable = xml.find("Consumable").length;
-    this.soulbound = xml.find("Soulbound").length;
+    this.consumable = getFlag(xml, "Consumable");
+    this.soulbound  = getFlag(xml, "Soulbound");
     //UNIVERSAL:
-    this.bag = xml.find("BagType").text();
-    this.feedpower = xml.find("feedPower").text();
-    this.famebonus = xml.find("FameBonus").text();
+    this.bag        = getText(xml, "BagType");
+    this.feedpower  = getText(xml, "feedPower");
+    this.famebonus  = getText(xml, "FameBonus");
     //EQUIPMENT STATS
-    this.type = slotType(xml.find("SlotType").text());
+    this.type       = slotType(getText(xml, "SlotType"));
+    //STAT BOSTS
+    this.stats = {};
+    xml.find("ActivateOnEquip").each( function(i) {
+        if($(this).text() === "IncrementStat"){
+            var statType = stat($(this).attr("stat"));
+            self.stats[statType] = $(this).attr("amount");
+        }
+    } );
     //WEAPONS
     if(this.type && 0xF0 == 0x00){
-        this.mindamage = parseInt(xml.find("MinDamage").text());
-        this.maxdamage = parseInt(xml.find("MaxDamage").text());
-        this.averagedamage = (this.mindamage + this.maxdamage) / 2;                                                 //average damage
-        this.range = (parseFloat(xml.find("Speed").text()) * parseFloat(xml.find("LifetimeMS").text())) / 10000;    //speed * lifetime / 10000
-        this.rof = (0 - parseFloat(xml.find("RateOfFire").text())) * 100;                                           //(0-range) * 100
+        this.mindamage = parseInt(getText(xml, "MinDamage"));
+        this.maxdamage = parseInt(getText(xml, "MaxDamage"));
+        this.range  = (parseFloat(getText(xml, "Speed")) * parseFloat(getText(xml, "LifetimeMS"))) / 10000;
+        this.rof  = (- parseFloat(getText(xml, "RateOfFire"))) * 100;
     }
 }

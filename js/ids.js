@@ -60,7 +60,41 @@ var slottypes = {
 //Get a slottype value which is eaiser to work with
 function slotType(x){
     if(slottypes[x]){
-        return x;
+        return slottypes[x];
+    }
+
+    return 0xFF;
+}
+
+//------------STATS------------
+
+//SlotTypes:
+/*
+0       HP      0x1
+3       MP      0x2
+20      ATK     0x3
+21      DEF     0x4
+22      SPD     0x5
+26      VIT     0x6
+27      WIS     0x7
+28      DEX     0x8
+*/
+
+var stats = {
+    0: 0x1,
+    3: 0x2,
+    20: 0x3,
+    21: 0x4,
+    22: 0x5,
+    26: 0x6,
+    27: 0x7,
+    28: 0x8
+}
+
+//Get a slottype value which is eaiser to work with
+function stat(x){
+    if(stats[x]){
+        return stats[x];
     }
 
     return 0xFF;
