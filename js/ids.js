@@ -59,7 +59,7 @@ var slottypes = {
 
 //Get a slottype value which is eaiser to work with
 function slotType(x){
-    if(slottypes[x]){
+    if(slottypes[x] != undefined){
         return slottypes[x];
     }
 

@@ -31,20 +31,33 @@ Item.prototype.writeHeader = function(){
 
 //Append Beutiful HTML Representation of 'item' to 'container'
 Item.prototype.writeItem = function(container){
-    var top = $("<div class='item'>");                                                      //[SPRITE]     Title    T*
-        top.attr("id", "item" + this.identifier)
-        top.attr("title", (this.id ? this.id : this.name))
+    var top = $("<div class='item'>")
+    var norm = $("<div class='ingame'>");                                                      //[SPRITE]     Title    T*
+        norm.attr("title", (this.id ? this.id : this.name))
     top.append(this.writeHeader())
 
     var desc = $("<div class='desc'>")                                                      //Description about the item
         desc.append("<p>" + (this.desc).split("\\n").join("<br />") + "</p>")
-    top.append(desc)
+    norm.append(desc)
 
-    top.append("<hr />")                                                                    //--------------------------
+    norm.append("<hr />")                                                                    //--------------------------
 
     if(this.feedpower){
-        top.append($("<span class='fp'>").append("Feed Power: " + this.feedpower))          //Feed Power: ***
+        norm.append($("<span class='fp'>").append("Feed Power: " + this.feedpower))          //Feed Power: ***
     }
+
+    top.append(norm);
+
+    var menu = $("<div class='menu'>");
+    var json = $("<pre class='json'>" + JSON.stringify(this, null, 4) + "</pre>");
+    menu.css("display", "none")
+    menu.append(json);
+    top.append(menu);
+
+    top.click(function(){
+        norm.toggle();
+        menu.toggle();
+    })
 
     container.append(top)
 }

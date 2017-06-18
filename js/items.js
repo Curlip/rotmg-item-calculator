@@ -31,20 +31,20 @@ function Item(xml, url){
     this.feedpower  = getText(xml, "feedPower");
     this.famebonus  = getText(xml, "FameBonus");
     //EQUIPMENT STATS
-    this.type       = slotType(getText(xml, "SlotType"));
+    this.type = slotType(parseInt(getText(xml, "SlotType")));
     //STAT BOSTS
-    this.stats = {};
+    this.equipStats = {};
     xml.find("ActivateOnEquip").each( function(i) {
         if($(this).text() === "IncrementStat"){
             var statType = stat($(this).attr("stat"));
-            self.stats[statType] = $(this).attr("amount");
+            self.equipStats[statType] = $(this).attr("amount");
         }
     } );
     //WEAPONS
-    if(this.type && 0xF0 == 0x00){
+    if((this.type & 0xF0) == 0x00){
         this.mindamage = parseInt(getText(xml, "MinDamage"));
         this.maxdamage = parseInt(getText(xml, "MaxDamage"));
         this.range  = (parseFloat(getText(xml, "Speed")) * parseFloat(getText(xml, "LifetimeMS"))) / 10000;
-        this.rof  = (- parseFloat(getText(xml, "RateOfFire"))) * 100;
+        this.rof  = (parseFloat(getText(xml, "RateOfFire")));
     }
 }
