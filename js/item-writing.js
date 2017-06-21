@@ -42,7 +42,30 @@ Item.prototype.writeItem = function(container){
 
     norm.append("<hr />")                                                                    //--------------------------
 
+    if((this.type & 0xF0) == 0x00){
+        if(this.shots) norm.append("<p>Shots: " + this.shots + "</p>");
+        norm.append("<p>Damage: " + this.mindamage + " - " + this.maxdamage + "</p>")
+        norm.append("<p>Range: " + this.range + "</p>")
+        if(this.rof != 1){
+            if(this.rof > 1) norm.append("<p>Rate Of Fire: " + Math.round(this.rof * 100 * 10)/10 + "%</p>");
+            if(this.rof < 1) norm.append("<p>Rate Of Fire: -" + (100 - this.rof * 100) + "%</p>");
+        }
+        if(this.multihit) norm.append("<p>Shots Hit Multiple Targets</p>");
+        if(this.pierce) norm.append("<p>Shots Ignore Enemy Defense</p>");
+    }
+
+    if(!$.isEmptyObject(this.equipStats)){
+        var onequip = norm.append("<p>On Equip:</p>")
+        onequip.css("margin-top", "3px;")
+        for (i = 0; i < 8; i++) {
+            if(this.equipStats[i+1]){
+                norm.append("<p>+" + this.equipStats[i+1] + " " + stat(i+1)+"</p>");
+            }
+        }
+    }
+
     if(this.feedpower){
+        norm.append("<hr />")
         norm.append($("<span class='fp'>").append("Feed Power: " + this.feedpower))          //Feed Power: ***
     }
 
@@ -55,8 +78,11 @@ Item.prototype.writeItem = function(container){
     top.append(menu);
 
     top.click(function(){
-        norm.toggle();
-        menu.toggle();
+        var selection = window.getSelection();
+        if(selection.toString().length === 0) {
+            norm.toggle();
+            menu.toggle();
+        }
     })
 
     container.append(top)

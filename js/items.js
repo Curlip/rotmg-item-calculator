@@ -45,6 +45,9 @@ function Item(xml, url){
         this.mindamage = parseInt(getText(xml, "MinDamage"));
         this.maxdamage = parseInt(getText(xml, "MaxDamage"));
         this.range  = (parseFloat(getText(xml, "Speed")) * parseFloat(getText(xml, "LifetimeMS"))) / 10000;
+        this.shots  = parseInt(getText(xml, "NumProjectiles"));
         this.rof  = (parseFloat(getText(xml, "RateOfFire")));
+        this.multihit  = getFlag(xml, "MultiHit");
+        this.pierce  = getFlag(xml, "ArmorPiercing");
     }
 }

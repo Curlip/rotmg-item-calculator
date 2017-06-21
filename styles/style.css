@@ -2,7 +2,7 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     color: white;
-    -webkit-text-stroke: 0.5px black;
+    -webkit-text-stroke: 0.2px black;
     text-shadow: 0px 0px 3px #222222;
 }
 
@@ -46,6 +46,10 @@
     margin-bottom: 10px;
 }
 
+.item p {
+    margin: 2px 0px;
+}
+
 .item-header {
     padding: 0;
     margin: 0;
@@ -85,6 +89,7 @@
 
 .fp {
     font-weight: 700;
+    -webkit-text-stroke: 0.5px black;
 }
 
 .tier {

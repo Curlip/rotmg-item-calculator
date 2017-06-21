@@ -88,7 +88,15 @@ var stats = {
     22: 0x5,
     26: 0x6,
     27: 0x7,
-    28: 0x8
+    28: 0x8,
+    0x1: "Maximum HP",
+    0x2: "Maximum MP",
+    0x3: "Attack",
+    0x4: "Defense",
+    0x5: "Speed",
+    0x6: "Vitality",
+    0x7: "Wisdom",
+    0x8: "Dexterity"
 }
 
 //Get a slottype value which is eaiser to work with
