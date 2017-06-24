@@ -33,8 +33,8 @@ $(document).ready(function(){
 });
 
 function load(){
-    items1 = [];
-    items2 = [];
+    items1 = {};
+    items2 = {};
 
     $("#main-list > .list").empty();
     $("#secondary-list > .list").empty();
@@ -61,19 +61,21 @@ function load(){
         var xml2 = d2;
 
         $.each($(xml1).find("Object"), function(i, ele){
-            items1.push(new Item($(ele), URL1));
+            var $ele = $(ele);
+            items1[$ele.attr("type")] = new Item($(ele), URL1)
         });
 
-        items1.forEach(function callback(item, i, array) {
-            item.writeItem($("#main-list > .list"));
+        $.each(items1, function callback(key, value) {
+            value.writeItem($("#main-list > .list"));
         });
 
         $.each($(xml2).find("Object"), function(i, ele){
-            items2.push(new Item($(ele), URL2));
+            var $ele = $(ele);
+            items2[$ele.attr("type")] = new Item($(ele), URL1)
         });
 
-        items2.forEach(function callback(item, i, array) {
-            item.writeItem($("#secondary-list > .list"));
+        $.each(items2, function callback(key, value) {
+            value.writeItem($("#secondary-list > .list"));
         });
     });
 }

@@ -81,22 +81,22 @@ function slotType(x){
 */
 
 var stats = {
-    0: 0x11,
-    3: 0x12,
-    20: 0x13,
-    21: 0x14,
-    22: 0x15,
-    26: 0x16,
-    27: 0x17,
-    28: 0x18,
-    0x11: "Maximum HP",
-    0x12: "Maximum MP",
-    0x13: "Attack",
-    0x14: "Defense",
-    0x15: "Speed",
-    0x16: "Vitality",
-    0x17: "Wisdom",
-    0x18: "Dexterity"
+    0: 0xF1,
+    3: 0xF2,
+    20: 0xF3,
+    21: 0xF4,
+    22: 0xF5,
+    26: 0xF6,
+    27: 0xF7,
+    28: 0xF8,
+    0xF1: "Maximum HP",
+    0xF2: "Maximum MP",
+    0xF3: "Attack",
+    0xF4: "Defense",
+    0xF5: "Speed",
+    0xF6: "Vitality",
+    0xF7: "Wisdom",
+    0xF8: "Dexterity"
 }
 
 //Get a slottype value which is eaiser to work with

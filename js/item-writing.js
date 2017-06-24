@@ -33,7 +33,6 @@ Item.prototype.writeHeader = function(){
 Item.prototype.writeItem = function(container){
     var top = $("<div class='item'>")
     var norm = $("<div class='ingame'>");                                                      //[SPRITE]     Title    T*
-        norm.attr("title", (this.id ? this.id : this.name))
     top.append(this.writeHeader())
 
     var desc = $("<div class='desc'>")                                                      //Description about the item
@@ -57,9 +56,10 @@ Item.prototype.writeItem = function(container){
     if(!$.isEmptyObject(this.equipStats)){
         var onequip = norm.append("<p>On Equip:</p>")
         onequip.css("margin-top", "3px;")
-        for (i = 0; i < 8; i++) {
-            if(this.equipStats[i+1]){
-                norm.append("<p>+" + this.equipStats[i+1] + " " + stat(i+1)+"</p>");
+        for (i = 1; i < 9; i++) {
+            if(this.equipStats[0xF0 + i]){
+                var prefix = (this.equipStats[0xF0 + i] > 0 ? "+" : "");
+                norm.append("<p>" + prefix + this.equipStats[0xF0 + i] + " " + stat(0xF0 + i)+"</p>");
             }
         }
     }
